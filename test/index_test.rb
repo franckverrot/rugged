@@ -134,3 +134,22 @@ context "Ribbit::Index writing stuff" do
     assert_equal 4, index2.entry_count
   end
 end
+
+context "Ribbit::Index with working directory" do
+  setup do
+    @tmppath = Tempfile.new('index').path + '_dir'
+    FileUtils.mkdir(@tmppath)
+    Dir.chdir(@tmppath) do
+      `git init`
+    end
+    @repo = Ribbit::Repository.new(@tmppath + '/.git')
+    @index = @repo.index
+  end
+
+  test "can add from a path" do
+    File.open(File.join(@tmppath, 'test.txt'), 'w') do |f|
+      f.puts "test content"
+    end
+    @index.add('test.txt')
+  end
+end
