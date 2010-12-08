@@ -23,8 +23,8 @@ context "Rugged::Backend stuff" do
   test "can add a new backend" do
     backend = TestBackend.new(5) # max priority
     @repo.add_backend(backend)
-
-    assert !@repo.exists(@blob_sha)
-    assert_equals nil, @repo.read(@blob_sha)
+    @repo.lookup(@blob_sha)
+    #@repo.exists(@blob_sha)
+    @repo.read(@blob_sha)
   end
 end
